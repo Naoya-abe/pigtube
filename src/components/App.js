@@ -4,17 +4,18 @@ import youtube from '../apis/youtube';
 import SearchBar from './SearchBar';
 
 class App extends React.Component {
-  state = {video: ''};
+  state = {videos: []};
 
   onTermSubmit = async term => {
     try {
-      await youtube.get('/search', {
+      const response = await youtube.get('/search', {
         params: {
           q: term,
         },
       });
+      this.setState({videos: response.data.items});
     } catch {
-      window.alert('失敗しました。');
+      window.alert('動画の取得に失敗しました。');
     }
   };
 
